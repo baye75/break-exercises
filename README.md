@@ -322,4 +322,553 @@ The final result is that before optimization, we have say 50 × 500 KB images = 
 
 In summary, we serve AVIF thumbnails via CDN with loading="lazy" and srcset for responsive sizes, thereby cutting page weight by 90% while images retain their quality.
 
+## Class 04 Modern Forms & User Experience
+## Theory
+### Question 1.
 
+Client-Side-only Validation
+Flow:
+When user types an invalid email and clicks submit, JavaScript blocks submission, shows red "Invalid email" instantly and the page never refreshes
+
+However, the user can disable JavaScript (or use DevTools), and as a. result, validation never runs. Hence, bad data hits your server which can lead to database corruption, spam, or errors.
+
+Server-Side-only Validation
+Flow:
+When the user types an invalid email and clicks submit, the page refreshes, server rejects it and sends back entire page with error message. The user waits some seconds to learn they made an error in the email.
+
+However, the problem is slow feedback, poor user experience, extra server load, resulting in user frustration.
+
+The right way is both client-side and server-side validation
+Flow:
+
+Client-side (instant): here, JavaScript validates before submit, "Invalid email" shows immediately.The user then fixes the error in seconds and form submits clean data.
+
+Server-side (security): Even if client validation passes, server re-validates, and anyone bypassing JavaScript is caught.Server returns 400 error with message.
+
+Why Both Are Required
+Without forms of validation, client-side user experience willbe slow, resulting in frustrating forms.
+
+Also, there will be server-side	security and data integrity	breach, attacks, and corrupt data.
+
+In summary, client-side validation gives instant feedback for good user experience, server-side validation prevents bad data from reaching your database. Both is required because users can bypass JavaScript, but they shouldn't have to wait for too long to fix an error in email.
+
+### Question 2.
+The autocomplete attribute tells the browser what type of information belongs in a form field.This enables the browsser to automatically fill it with saved user data like passwords, addresses, payment info, and so on.
+
+<table style="border-collapse: collapse; width: 100%;"> 
+  <thead> 
+    <tr style="border-bottom: 2px solid #ddd;"> 
+      <th style="padding: 8px; text-align: left;">Value</th> 
+      <th style="padding: 8px; text-align: left;">When to Use</th> 
+      <th style="padding: 8px; text-align: left;">Real Form Example</th> 
+    </tr> 
+  </thead> 
+  <tbody> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">names</td> 
+      <td style="padding: 8px;">User's full name</td> 
+      <td style="padding: 8px;">Registration, checkout, contact forms</td> 
+    </tr> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">email</td> 
+      <td style="padding: 8px;">Email address</td> 
+      <td style="padding: 8px;">Login, newsletter signup, password reset</td> 
+    </tr> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">postal-code</td> 
+      <td style="padding: 8px;">Zip/postal code</td> 
+      <td style="padding: 8px;">Shipping calculator (Lagos: "100001", Abuja: "900001")</td> 
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">off</td> 
+      <td style="padding: 8px;">Disable autocomplete entirely	</td> 
+      <td style="padding: 8px;">Sensitive fields (government ID numbers, medical forms)</td> 
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">tel</td> 
+      <td style="padding: 8px;">Phone number</td> 
+      <td style="padding: 8px;">Delivery notifications, OTP verification (Nigeria: "Enter 0803...")</td> 
+    </tr> 
+  </tbody> 
+</table>
+
+## Product Thinking
+### Question 1.
+The core strategy is to use localStorage as draft auto-Save.
+1. Automatic progress saving using localStorage.
+
+After each step, data is saved automatically to localStorage. A code snippet that can be used to achieve this is shown below:
+
+`form.addEventListener('input', () => {
+  localStorage.setItem('jobAppDraft', JSON.stringify(formData));
+});`
+
+Now, when user loses internet at step 4, all data is already saved in their browser, no data is lost. When connection resumes, browser detects online event and restores draft from localStorage.
+
+2. Validation Strategy
+
+<table style="border-collapse: collapse; width: 100%;"> 
+  <thead> 
+    <tr style="border-bottom: 2px solid #ddd;"> 
+      <th style="padding: 8px; text-align: left;">Validation Type</th> 
+      <th style="padding: 8px; text-align: left;">When It Runs</th> 
+      <th style="padding: 8px; text-align: left;">Why</th> 
+    </tr> 
+  </thead> 
+  <tbody> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Client-side</td> 
+      <td style="padding: 8px;">On each field (real-time)</td> 
+      <td style="padding: 8px;">Catches errors instantly, saves clean data to localStorage</td> 
+    </tr> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Server-side</td> 
+      <td style="padding: 8px;">Only on final submission	</td> 
+      <td style="padding: 8px;">Prevents corrupted submissions</td> 
+    </tr> 
+  </tbody> 
+</table> 
+
+The key decision here is that internet should not be required to validate. Client-side validation works offline. Server validation only happens when you submit the complete form.
+
+3. Error Messaging
+Clear error messages should be sent when user clicks "Next" without internet:
+
+❌ "You're offline. Your progress is saved locally. Continue filling out the form – we'll submit when your connection returns."
+
+Also, an error messagewWhen user tries to submit final step offline:
+
+⚠️ "No internet connection. Your application is saved. We'll automatically submit when you reconnect."
+
+### Question 2.
+The table below shows when to use use native `<select>` and the reasons, considering accessibility, mobile UX, development time, and edge cases:
+
+<table style="border-collapse: collapse; width: 100%;"> 
+  <thead> 
+    <tr style="border-bottom: 2px solid #ddd;"> 
+      <th style="padding: 8px; text-align: left;">Factor</th> 
+      <th style="padding: 8px; text-align: left;">Why</th> 
+    </tr> 
+  </thead> 
+  <tbody> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Mobile users</td> 
+      <td style="padding: 8px;">	iOS/Android show native wheel picker (easier than tiny custom options)</td> 
+    </tr> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Simple selection</td> 
+      <td style="padding: 8px;">Pick one option from a list (countries, quantity, year)</td> 
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Development speed</td> 
+      <td style="padding: 8px;">1 line of code, zero JavaScript, works instantly</td> 
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Accessibility</td> 
+      <td style="padding: 8px;">Free screen reader support, keyboard navigation, focus management</td> 
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Large lists</td>
+      <td style="padding: 8px;">Native handles 100+ options without performance issues</td>
+    </tr> 
+  </tbody> 
+</table> 
+
+The table below shows when to use use custom dropdown and the reasons, considering accessibility, mobile UX, development time, and edge cases:
+
+<table style="border-collapse: collapse; width: 100%;"> 
+  <thead> 
+    <tr style="border-bottom: 2px solid #ddd;"> 
+      <th style="padding: 8px; text-align: left;">Factor</th> 
+      <th style="padding: 8px; text-align: left;">Why</th> 
+    </tr> 
+  </thead> 
+  <tbody> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Search required</td> 
+      <td style="padding: 8px;">Say over 50 countries? User needs to type to filter</td> 
+    </tr> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Multi-select with checkboxes</td> 
+      <td style="padding: 8px;">Native multi-select is clunky (requires Ctrl+click)</td> 
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Custom styling required</td> 
+      <td style="padding: 8px;">Brand colors, animations, icons inside options</td> 
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Complex option content</td>
+      <td style="padding: 8px;">Images, descriptions, or HTML inside each option</td>
+    </tr> 
+  </tbody> 
+</table> 
+
+Acomparison table between native `<select>` and custom dropdown considering accessibility, mobile UX, development time, and edge cases is shown below:
+
+<table style="border-collapse: collapse; width: 100%;"> 
+  <thead> 
+    <tr style="border-bottom: 2px solid #ddd;"> 
+      <th style="padding: 8px; text-align: left;">Factor</th> 
+      <th style="padding: 8px; text-align: left;">Native select</th> 
+      <th style="padding: 8px; text-align: left;">Custom Dropdown</th> 
+    </tr> 
+  </thead> 
+  <tbody> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Mobile UX</td> 
+      <td style="padding: 8px;">Native wheel picker</td> 
+      <td style="padding: 8px;">Tiny tap targets</td> 
+    </tr> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Accessibility	</td> 
+      <td style="padding: 8px;">Free (ARIA built-in)</td> 
+      <td style="padding: 8px;">Requires manual ARIA</td> 
+    </tr> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Development time</td> 
+      <td style="padding: 8px;">1 minute</td> 
+      <td style="padding: 8px;">2-4 hours</td> 
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Edge cases</td> 
+      <td style="padding: 8px;">Handled by browser</td> 
+      <td style="padding: 8px;">You manage everything</td> 
+    </tr>
+  </tbody> 
+</table>
+
+## Class 05 The CSS Engine — Box Model & Specificity
+## Theory
+### Quesiton 1.
+
+<div style=" 
+  background: #f9e79f;  
+  padding: 30px;  
+  text-align: center;  
+  font-family: sans-serif; 
+  border: 2px dashed #b7950b; 
+  margin: 20px; 
+"> 
+  <div style=" 
+    background: #abebc6;  
+    padding: 20px; 
+    border: 4px solid #27ae60; 
+  "> 
+    <div style=" 
+      background: #d5f5e3;  
+      padding: 15px; 
+      border: 2px dashed #1e8449; 
+    "> 
+      <div style=" 
+        background: #ffffff;  
+        padding: 20px;  
+        border: 1px solid #333; 
+      "> 
+        <strong>CONTENT</strong><br> 
+        <span style="font-size:0.8em;">(The actual element)</span> 
+      </div> 
+      <span style="font-size:0.7em; color:#1e8449;">PADDING</span> 
+    </div> 
+    <span style="font-size:0.7em; color:#27ae60;">BORDER</span> 
+  </div> 
+  <span style="font-size:0.7em; color:#b7950b;">MARGIN</span> 
+</div> 
+
+When you have two adjacent divs of margin-bottom: 20px and margin-top: 30px, the space between them will be 30px. This is beacuase a ***margin collapse*** will occur between them. Margin Collapse – When two vertical margins touch, they merge (collapse) into the larger margin. The smaller margin essentially disappears. The rule of thumb is that adjacent block elements share vertical margins, we take the maximum, not the sum.
+
+### Question 2.
+The CSS specificity hierarchy is explained in a tabular form from highest to lowest as shown below:
+
+<table style="border-collapse: collapse; width: 100%;"> 
+  <thead> 
+    <tr style="border-bottom: 2px solid #ddd;"> 
+      <th style="padding: 8px; text-align: left;">Selector Type</th> 
+      <th style="padding: 8px; text-align: left;">Example</th> 
+      <th style="padding: 8px; text-align: left;">Specificity</th> 
+    </tr> 
+  </thead> 
+  <tbody> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Inline styles</td> 
+      <td style="padding: 8px;">style="color: red"</td> 
+      <td style="padding: 8px;">1,0,0,0</td> 
+    </tr> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">ID</td> 
+      <td style="padding: 8px;">#header</td> 
+      <td style="padding: 8px;">0,1,0,0</td> 
+    </tr> 
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Class, attribute, pseudo-class</td> 
+      <td style="padding: 8px;">.nav, [type="text"], :hover</td> 
+      <td style="padding: 8px;">0,0,1,0</td> 
+    </tr>
+    <tr style="border-bottom: 1px solid #ddd;"> 
+      <td style="padding: 8px;">Element, pseudo-element</td> 
+      <td style="padding: 8px;">	div, a, ::before</td> 
+      <td style="padding: 8px;">0,0,0,1</td> 
+    </tr>
+  </tbody> 
+</table>
+
+Using the specificity hierarchy given above, we can calculate the specificities of the given selectors as shown below:
+
+Selector 1: .header nav ul li a
+
+.header (class) = (0,0,1,0)
+
+nav (element) = (0,0,0,1)
+
+ul (element) = (0,0,0,1)
+
+li (element) = (0,0,0,1)
+
+a (element) = (0,0,0,1)
+────────────────────────────────
+
+TOTAL:      (0,0,1,4)
+
+Selector 2: nav a.active
+
+
+nav (element) = (0,0,0,1)
+
+a (element) = (0,0,0,1)
+
+.active (class) = (0,0,1,0)
+
+─────────────────────────────────
+
+TOTAL:      (0,0,1,2)
+
+Selector 3: .nav-links a
+
+.nav-links (class) = (0,0,1,0)
+
+a (element) = (0,0,0,1)
+
+─────────────────────────────────
+
+TOTAL:      (0,0,1,1)
+
+From the calculation, we see that the first selector, .header nav ul li a, wins since it has the highest specificity of all the given selectors.
+
+### Question 3.
+The cascade in CSS refers to the set of rules that determines which CSS rule wins when multiple rules target the same element using cerrtain criteria like source order, specificity, and importance.
+A simple situation where cascade helps writing unnecessary CSS is:
+
+By default,alink (anchor tag) has a color of blue; i.e
+
+a {
+  color: blue;
+}
+
+Lets say we want the links in. our footer to be of color red, without cascade, we might have to say add a class, then override with !important;
+
+.footer-link {
+  color: red !important;
+}
+
+However with cascade, we just use a selector and let source order (and specificity) apply our styles:
+
+footer a {
+  color: red;
+}
+
+##  Engineering Thinking
+### Question 1.
+When you have an element of width of say 100px and you apply a padding of 10px, it suddenly appears wider than expected (specifically, 120px wide). The reason for this is that by default, "box-sizing: content-box" adds padding ***on top of*** the width.
+
+Applied width = 100px
+eneed width = applied width + padding-left + padding-right = 100px +10px + 10px = 120px
+
+The fix for this is in pur element styling, we set the value of box-sizing to border-box;
+
+box-sizing: border-box;
+
+This ensures that the element takes up only the applied width without adding any applied padding to the width.
+
+### Question 2.
+
+<style> 
+  .demo-container { 
+    display: flex; 
+    gap: 30px; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    margin: 20px 0; 
+  } 
+  .box-wrapper { 
+    text-align: center; 
+    font-family: sans-serif; 
+  } 
+  .box { 
+    width: 200px; 
+    height: 100px; 
+    padding: 25px; 
+    border: 10px solid #333; 
+    background: #e0f2fe; 
+    margin: 10px auto; 
+    position: relative; 
+    /* The content area is where the text goes */ 
+    color: #0c4a6e; 
+    font-weight: bold; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+  } 
+  /* Default box-sizing: content-box (this is the browser default) */ 
+  .content-box { 
+    box-sizing: content-box; 
+    background: #fef9c3;  /* light yellow to differentiate */ 
+    border-color: #a16207; 
+  } 
+  /* border-box includes padding and border inside the declared width/height */ 
+  .border-box { 
+    box-sizing: border-box; 
+    background: #dcfce7;  /* light green */ 
+    border-color: #166534; 
+  } 
+  .label { 
+    margin-bottom: 5px; 
+    font-size: 0.9em; 
+    font-weight: bold; 
+  } 
+  .dimensions { 
+    font-size: 0.75em; 
+    margin-top: 8px; 
+    color: #444; 
+    line-height: 1.5; 
+  } 
+</style> 
+ 
+<div class="demo-container"> 
+  <!-- CONTENT-BOX --> 
+  <div class="box-wrapper"> 
+    <div class="label">  content-box</div> 
+    <div class="box content-box"> 
+      <span>Content area<br>200×100 px</span> 
+    </div> 
+    <div class="dimensions"> 
+      width: 200px<br> 
+      padding: 25px (×2)<br> 
+      border: 10px (×2)<br> 
+      <strong>Total width = 200 + 50 + 20 = 270px</strong> 
+    </div> 
+  </div> 
+ 
+  <!-- BORDER-BOX --> 
+  <div class="box-wrapper"> 
+    <div class="label">  border-box</div> 
+    <div class="box border-box"> 
+      <span>Content area<br>140×40 px</span> 
+    </div> 
+    <div class="dimensions"> 
+      width: 200px<br> 
+      padding: 25px (×2)<br> 
+      border: 10px (×2)<br> 
+      <strong>Total width = 200px (content shrinks)</strong> 
+    </div> 
+  </div> 
+</div> 
+
+
+## Class 06 Flexbox Mastery
+## Theory
+### Question 1.
+Imagine a group of friends sharing a loaf of bread:
+
+flex-basis: this is the initial slice every friend expects before any sharing or shrinking happens.
+
+flex-grow: this is how much extra bread a friend gets if there is leftover.
+
+flex-shrink: this is how much bread a firend gives up if the bread is smaller than expected.
+
+### Question 2.
+align-items: stretch; fails when the cross-axis item has a specified content height. It only works on items without a defined cross-axis size.
+
+<style>
+  .container {
+  display: flex;
+  align-items: stretch; /* Try to make all items equal height */
+  height: 300px;
+  background: #f0f0f0;
+  gap: 10px;
+}
+
+.item3 {
+  height: 100px; /* This blocks stretch */
+  background: #e74c3c;
+}
+
+.item1, .item2 {
+  background: #4a90e2;
+}
+</style>
+<div class="container">
+  <div class="item1">Hello World!</div>
+  <div class="item2">This item has<br>three lines<br>of text</div>
+  <div class="item3">I have a height</div>
+</div>
+
+## Engineering Thinking
+### Question 1.
+
+<style>
+  .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Pushes logo left, button right */
+  background: #1a1a2e;
+  padding: 1rem 2rem;
+  color: white;
+}
+
+.logo {
+  flex: 0 0 auto; /* Don't grow, don't shrink, auto width */
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  
+  /* KEY: Makes nav-links take available space */
+  flex: 1;
+  
+  /* Centers items inside the available space */
+  justify-content: center;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+}
+
+.signin-btn {
+  flex: 0 0 auto; /* Don't grow, don't shrink */
+  background: #e94560;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+</style>
+<nav class="navbar">
+  <div class="logo">Web-Dev ChatApp</div>
+  
+  <ul class="nav-links">
+    <li><a href="#">About</a></li>
+    <li><a href="#">Tutors</a></li>
+    <li><a href="#">Fellows</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  
+  <button class="signin-btn">Sign In</button>
+</nav>
