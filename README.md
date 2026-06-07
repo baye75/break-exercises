@@ -980,6 +980,50 @@ Mobile (Collapsed Sidebar at Top):
 }
 ```
 
+## Class 08 Tailwind CSS Fundamentals
+## Theory
+### Question 1.
+The core idea or philosophy of "utility-first" is to build interfaces by forming small, single-purpose classes directly in your HTMLcode, not by writing custom CSS for each component as we were used to.
+
+Some of the reasons why Tailwind's creator chose utility classes over semantic/component-based classes are:
+
+1. To avoid naming things we don't really need: 
+
+Traditionally, we spend a lot of time naming classes in the vanilla CSS. Most of these classes were ctually unnecessary as we can for instance make a container flex by simply using the utility class "flex" without having to first give the container a class name before displaying it to be flex.
+
+2. To avoid CSS that accidentally breaks:
+
+Imagine giving a particular background color to a button (say red), and later somewhere else, we give the same button a colorof blue. This is common in the vanilla CSS and can lead to confusion. With Tailwind's utility classes, we can just have ***bg-red-500*** and that solves any problem of reassigning a different color later on.
+
+3. To be able to change just the HTML, not CSS:
+
+with Tailwind's utitlity classes, we can style our page by changing just the HTML without having to worry about checking through multiple lines of a CSS file.
+
+4. To be able to enforced design systems automatically:
+
+With traditional CSS, we can just use any value of our choice, say ***padding-17px***. As much as this works and gives flexibility, it also breaks consistency in design. Hence, Tailwind's utility classes have predefined values to ensure consistency in design; for instance ***p-4*** is a padding of 16px.
+
+5. To avoid hanging, unused CSS
+
+With semantic CSS, you can delete a component but forget to delete its styles and they stay in your CSS file forever. However with Tailwind's utilities, delete the HTML and the styles disappear automatically (no CSS file to clean).
+
+### Question 2.
+JIT (Just-In-Time) generates CSS "on-demand" as you build, not ahead-of-time. As areulst, instead of generating every possible utility like colors, spacing, paddig, etc upfront, JIT scans your HTML and only creates CSS for classes you actually use.
+
+How It Affects CSS File Size in Production
+
+1. Before JIT, massive file sizes were generated (all utilities) but with JIT, only used utilities were generated (reduced file size).
+
+2. Befor JIT, we required PurgeCSS (a developer tool for scanning your file and removing any unused CSS) to remove unused styles, but with JIT, no purging needed as unused styles were never created.
+
+3. Before JIT, there is the risk of purging classes used in dynamic JavaScript, but with JIT, this does not happen as it watches all template files.
+
+4. With JIT, production CSS is very small from the start (often 5-15 KB) regardless of whow many utilities you use.
+
+In summary, JIT compiles CSS on-demand while you develop, never generating unused styles. Hence, production files are naturally tiny without needing PurgeCSS or worrying about accidentally stripping dynamic classes.
+
+
+
 📝 Self-Assessment Template
 
 Before this break, I knew…
