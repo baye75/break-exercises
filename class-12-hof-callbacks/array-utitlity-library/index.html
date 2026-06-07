@@ -1,0 +1,180 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Simple Array Utility Library</title> 
+  <script src="https://cdn.tailwindcss.com"></script> 
+</head> 
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen py-8 px-4"> 
+  <div class="max-w-4xl mx-auto"> 
+    <h1 class="text-3xl font-bold text-center text-slate-800 mb-2"> Array Utility 
+Library</h1>  
+   
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6"> 
+ 
+     
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col"> 
+        <h2 class="text-xl font-bold text-indigo-600 mb-2">  myMap(array, callback)</h2> 
+        <p class="text-sm text-slate-600 mb-3">Creates a new array by calling a function on every 
+element.</p> 
+        <div class="bg-slate-100 rounded-lg p-3 mb-4 text-sm font-mono"> 
+          <p class="font-semibold">Example:</p> 
+          <p class="text-indigo-700">myMap([1,2,3], x => x * 2)</p> 
+          <p>→ <span id="mapResult" class="text-green-700">Click Test to see</span></p> 
+        </div> 
+        <button onclick="testMap()" class="mt-auto bg-indigo-500 hover:bg-indigo-600 text-white 
+font-semibold py-2 px-4 rounded-lg transition">Test myMap</button> 
+      </div> 
+ 
+    
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col"> 
+        <h2 class="text-xl font-bold text-indigo-600 mb-2">  myFilter(array, callback)</h2> 
+        <p class="text-sm text-slate-600 mb-3">Creates a new array with elements that pass a 
+test.</p> 
+        <div class="bg-slate-100 rounded-lg p-3 mb-4 text-sm font-mono"> 
+          <p class="font-semibold">Example:</p> 
+          <p class="text-indigo-700">myFilter([1,2,3,4], x => x % 2 === 0)</p> 
+          <p>→ <span id="filterResult" class="text-green-700">Click Test to see</span></p> 
+        </div> 
+        <button onclick="testFilter()" class="mt-auto bg-indigo-500 hover:bg-indigo-600 text-white 
+font-semibold py-2 px-4 rounded-lg transition">Test myFilter</button> 
+      </div> 
+ 
+     
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col"> 
+        <h2 class="text-xl font-bold text-indigo-600 mb-2">  myReduce(array, callback, 
+initial)</h2> 
+        <p class="text-sm text-slate-600 mb-3">Reduces array to a single value 
+(accumulator).</p> 
+        <div class="bg-slate-100 rounded-lg p-3 mb-4 text-sm font-mono"> 
+          <p class="font-semibold">Example:</p> 
+          <p class="text-indigo-700">myReduce([1,2,3], (acc, x) => acc + x, 0)</p> 
+          <p>→ <span id="reduceResult" class="text-green-700">Click Test to see</span></p> 
+        </div> 
+        <button onclick="testReduce()" class="mt-auto bg-indigo-500 hover:bg-indigo-600 
+text-white font-semibold py-2 px-4 rounded-lg transition">Test myReduce</button> 
+      </div> 
+ 
+      
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col"> 
+        <h2 class="text-xl font-bold text-indigo-600 mb-2">  myFlat(array, depth)</h2> 
+        <p class="text-sm text-slate-600 mb-3">Flattens nested arrays up to a given depth.</p> 
+        <div class="bg-slate-100 rounded-lg p-3 mb-4 text-sm font-mono"> 
+          <p class="font-semibold">Example:</p> 
+          <p class="text-indigo-700">myFlat([1,[2,[3,4]]], 2)</p> 
+          <p>→ <span id="flatResult" class="text-green-700">Click Test to see</span></p> 
+        </div> 
+        <button onclick="testFlat()" class="mt-auto bg-indigo-500 hover:bg-indigo-600 text-white 
+font-semibold py-2 px-4 rounded-lg transition">Test myFlat</button> 
+      </div> 
+ 
+     
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col"> 
+        <h2 class="text-xl font-bold text-indigo-600 mb-2">  myDebounce(fn, delay)</h2> 
+        <p class="text-sm text-slate-600 mb-3">Delays function execution until after inactivity.</p> 
+        <div class="bg-slate-100 rounded-lg p-3 mb-4 text-sm"> 
+          <label class="font-semibold">Type below (500ms debounce):</label> 
+          <input type="text" id="debounceInput" placeholder="Type something..." class="w-full mt-1 
+px-3 py-2 border rounded-lg text-sm"> 
+          <p class="mt-2">Immediate: <span id="immediateText" class="text-red-600 
+font-mono"></span></p> 
+          <p>Debounced: <span id="debouncedText" class="text-green-600 
+font-mono"></span></p> 
+        </div> 
+        <p class="text-xs text-slate-500 mt-auto">(built‑in test active automatically)</p> 
+      </div> 
+ 
+     
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col"> 
+        <h2 class="text-xl font-bold text-indigo-600 mb-2">  myThrottle(fn, limit)</h2> 
+        <p class="text-sm text-slate-600 mb-3">Ensures function runs at most once per 
+interval.</p> 
+        <div class="bg-slate-100 rounded-lg p-3 mb-4 text-sm"> 
+          <p class="font-semibold">Click rapidly (1s throttle):</p> 
+          <button id="throttleBtn" class="mt-2 bg-orange-500 hover:bg-orange-600 text-white 
+font-semibold py-2 px-4 rounded-lg transition">Click me!</button> 
+          <p class="mt-2">Total clicks: <span id="totalClicks" class="text-red-600 
+font-mono">0</span></p> 
+          <p>Throttled execution count: <span id="throttledCount" class="text-green-600 
+font-mono">0</span></p> 
+        </div> 
+        <p class="text-xs text-slate-500 mt-auto">(built‑in test active automatically)</p> 
+      </div> 
+    </div> 
+ 
+   
+    <div class="mt-12 bg-slate-800 rounded-2xl shadow-lg p-6 text-white"> 
+      <h2 class="text-xl font-bold text-green-400 mb-4">  Library Source Code (simplified)</h2> 
+      <pre class="text-sm overflow-x-auto"><code>// Custom map 
+function myMap(arr, callback) { 
+  const result = []; 
+  for (let i = 0; i < arr.length; i++) { 
+    result.push(callback(arr[i], i, arr)); 
+  } 
+  return result; 
+} 
+ 
+// Custom filter 
+function myFilter(arr, callback) { 
+  const result = []; 
+  for (let i = 0; i < arr.length; i++) { 
+    if (callback(arr[i], i, arr)) { 
+      result.push(arr[i]); 
+    } 
+  } 
+  return result; 
+} 
+ 
+// Custom reduce 
+function myReduce(arr, callback, initial) { 
+  let acc = initial !== undefined ? initial : arr[0]; 
+  let start = initial !== undefined ? 0 : 1; 
+  for (let i = start; i < arr.length; i++) { 
+    acc = callback(acc, arr[i], i, arr); 
+  } 
+  return acc; 
+} 
+ 
+// Custom flat 
+function myFlat(arr, depth = 1) { 
+  const result = []; 
+  for (let i = 0; i < arr.length; i++) { 
+    if (Array.isArray(arr[i]) && depth > 0) { 
+      const nested = myFlat(arr[i], depth - 1); 
+      for (let j = 0; j < nested.length; j++) { 
+        result.push(nested[j]); 
+      } 
+    } else { 
+      result.push(arr[i]); 
+    } 
+  } 
+  return result; 
+} 
+ 
+// Custom debounce 
+function myDebounce(fn, delay) { 
+  let timeoutId; 
+  return function(...args) { 
+    clearTimeout(timeoutId); 
+    timeoutId = setTimeout(() => fn.apply(this, args), delay); 
+  }; 
+} 
+ 
+// Custom throttle 
+function myThrottle(fn, limit) { 
+  let inThrottle = false; 
+  return function(...args) { 
+    if (!inThrottle) { 
+      fn.apply(this, args); 
+      inThrottle = true; 
+      setTimeout(() => { inThrottle = false; }, limit); 
+    } 
+  }; 
+}</code></pre> 
+    </div> 
+  </div> 
+ 
+  <script src="index.js"></script> 
+</body> 
+</html> 

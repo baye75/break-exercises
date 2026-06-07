@@ -872,3 +872,149 @@ align-items: stretch; fails when the cross-axis item has a specified content hei
   
   <button class="signin-btn">Sign In</button>
 </nav>
+
+
+## Class 07 CSS Grid & Layout Complexitys
+## Theory
+### Question 1.
+The core difference between flexbox and grid is that flexboxis one-dimensional (either row OR column) whhile grid is two-dimensional (rows AND columns simultaneously).
+
+Three Scenarios where grid is clearly the better tool:
+
+1. Page Layout with Sidebar + Main Content
+
+Example: Blog with header, sidebar (navigation), main content area, and footer.
+
+2. Card Gallery with Consistent Heights
+
+Examle: Product grid showing say 24 items, where each card has title, description, image, and button and descriptions vary in length.
+
+3. Complex Overlapping Layouts
+
+Example: Magazine-style hero section where text overlays an image, and at the same time sits beside another element.
+
+In summary, we use grid for ***two-dimensional*** layouts where we control both rows and columns (page structure, card grids, overlapping elements); and use flexbox for one-dimensional distribution along a single axis (navigation bars, inline lists, centering a button).
+
+### Question 2.
+grid-template-areas is a visual layout mapping which lets you name grid cells and arrange them like a visual map without using numbers.
+
+We use grid-template-areas when layout stability matters, where we have fixed regions with clear names (header, sidebar, footer). This is because it is self-documenting and very easily responsive.
+
+## Engineering Thinking
+### Question 1.
+```
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│                      HERO ARTICLE                           │
+│                    (spans full width)                       │
+│                                                             │
+├───────────────────────────┬─────────────────────────────────┤
+│                           │                                 │
+│   SECONDARY ARTICLE 1     │     SECONDARY ARTICLE 2         │
+│                           │                                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│                    WIDE ARTICLE                             │
+│                 (spans full width)                          │
+│                                                             │
+├─────────────┬─────────────────┬─────────────────────────────┤
+│             │                 │                             │
+│  Article 1  │    Article 2    │        Article 3            │
+│             │                 │                             │
+└─────────────┴─────────────────┴─────────────────────────────┘
+```
+```
+.magazine {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 
+    "hero hero" 
+    "secondary1 secondary2"
+    "wide wide"
+    "article1 article2 article3";
+  gap: 20px;
+}
+```
+
+The ***fr*** (fraction) unit is used when you need to distribute the remaining space proportionally. It has been used here because the hero and small articles share space flexibly.
+
+The ***auto*** unit is used when you want content-sized columns (sidebar with exact text width). It is not needed in the example used above because all articles should grow/shrink together.
+
+The ***percentages*** unit is used when you want fixed proportions relative to parent container. It is less flexible than ***fr*** with gaps; ***fr*** handles gaps automatically.
+
+### Question 2.
+Large Screen (Desktop):
+```
+┌──────────┬────────────────────┬────────────┐
+│          │                    │            │
+│ Sidebar  │    Main Content    │ Right      │
+│ (auto)   │     (1fr)          │ Panel      │
+│          │                    │ (auto)     │
+└──────────┴────────────────────┴────────────┘
+```
+Medium Screen (Tablet):
+```
+┌────────────────────┬────────────┐
+│    Main Content    │ Right      │
+│     (1fr)          │ Panel      │
+├────────────────────┴────────────┤
+│         Sidebar (full width)    │
+└─────────────────────────────────┘
+```
+Mobile (Collapsed Sidebar at Top):
+```
+┌──────────────────────────────────┐
+│         Sidebar (auto)           │
+├──────────────────────────────────┤
+│         Main Content             │
+├──────────────────────────────────┤
+│         Right Panel              │
+└──────────────────────────────────┘
+```
+
+```
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+```
+
+📝 Self-Assessment Template
+
+Before this break, I knew…
+
+1. How the web really works, rendering of our HTLM page.
+
+2. HTML basics and styling with vanilla CSS.
+
+3. Tailwind CSS basics and Introductory Javascript.
+
+During this break, I learned…
+
+1. Advanced layouts using CSS flexbox and grid.
+
+2. Making responsive design with Tailwind CSS.
+
+3. Javascript functions, arrowfunctions and DOM manipulation.
+
+
+I'm still confused about…
+
+1. Event loop and Promises
+
+2. Application of Javascipt Promises in real life applications.
+
+
+My growth areas…
+
+1. Comfortable with HTML and CSS 
+
+2. Effective styling using Tailwind CSS
+
+3. Javascipt concepts and how to apply them in building simple applications.
+
+One thing I'll do differently in the next project…
+
+The only thing I will want to do differently in the next project, which really affected me in this project, and also was completely not within my power, is having more time to work on the project. It is not always like this, but in the last 6 weeks, I have had an impossible schedule at work with emergency installations that required us to work every single day of the week (MOndays to Sundays) from 8am till around 7pm. So I really hope this phase of work come to a completion soon so that I can dedicate much more time for the next poject.
+
