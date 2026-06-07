@@ -1022,6 +1022,26 @@ How It Affects CSS File Size in Production
 
 In summary, JIT compiles CSS on-demand while you develop, never generating unused styles. Hence, production files are naturally tiny without needing PurgeCSS or worrying about accidentally stripping dynamic classes.
 
+## Product Thinkiing
+### Question 1
+
+***Readability***
+
+Even though it can be tedious reading through Tailwind utilities while learning, it becomes very much easier and straightforward once you get used to it and know it, and in essence, it becomes also more convenient than jumping between the HTML and a separate CSS file as is the case in vanilla CSS.
+
+***Maintainability***
+
+With semantic CSS, deleting a component leaves dead CSS behind. With Tailwind, delete the HTML and the styles disappear automatically. No hunting for unused classes.
+
+***Consistency***
+
+Semantic CSS lets any developer write margin: 23px or padding: 17px. Tailwind locks you into a design system,say p-4 is always 16px, always consistent. Design stays consistent.
+
+***Performance***
+
+Tailwind generates only the classes you use (few kilobytes). On the other hand, semantic CSS often bundles unused styles. Also, utility classes are highly reusable.
+
+
 
 
 📝 Self-Assessment Template
