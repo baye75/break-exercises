@@ -710,20 +710,20 @@ This ensures that the element takes up only the applied width without adding any
     background: #e0f2fe; 
     margin: 10px auto; 
     position: relative; 
-    /* The content area is where the text goes */ 
+    
     color: #0c4a6e; 
     font-weight: bold; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
   } 
-  /* Default box-sizing: content-box (this is the browser default) */ 
+  
   .content-box { 
     box-sizing: content-box; 
-    background: #fef9c3;  /* light yellow to differentiate */ 
+    background: #fef9c3;  
     border-color: #a16207; 
   } 
-  /* border-box includes padding and border inside the declared width/height */ 
+ 
   .border-box { 
     box-sizing: border-box; 
     background: #dcfce7;  /* light green */ 
@@ -743,7 +743,7 @@ This ensures that the element takes up only the applied width without adding any
 </style> 
  
 <div class="demo-container"> 
-  <!-- CONTENT-BOX --> 
+ 
   <div class="box-wrapper"> 
     <div class="label">  content-box</div> 
     <div class="box content-box"> 
@@ -757,7 +757,7 @@ This ensures that the element takes up only the applied width without adding any
     </div> 
   </div> 
  
-  <!-- BORDER-BOX --> 
+ 
   <div class="box-wrapper"> 
     <div class="label">  border-box</div> 
     <div class="box border-box"> 
@@ -790,14 +790,14 @@ align-items: stretch; fails when the cross-axis item has a specified content hei
 <style>
   .container {
   display: flex;
-  align-items: stretch; /* Try to make all items equal height */
+  align-items: stretch; 
   height: 300px;
   background: #f0f0f0;
   gap: 10px;
 }
 
 .item3 {
-  height: 100px; /* This blocks stretch */
+  height: 100px;
   background: #e74c3c;
 }
 
@@ -818,14 +818,14 @@ align-items: stretch; fails when the cross-axis item has a specified content hei
   .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Pushes logo left, button right */
+  justify-content: space-between; 
   background: #1a1a2e;
   padding: 1rem 2rem;
   color: white;
 }
 
 .logo {
-  flex: 0 0 auto; /* Don't grow, don't shrink, auto width */
+  flex: 0 0 auto; 
   font-weight: bold;
   font-size: 1.2rem;
 }
@@ -1042,9 +1042,32 @@ Semantic CSS lets any developer write margin: 23px or padding: 17px. Tailwind lo
 Tailwind generates only the classes you use (few kilobytes). On the other hand, semantic CSS often bundles unused styles. Also, utility classes are highly reusable.
 
 
+### Question 2.
 
 
-📝 Self-Assessment Template
+<script src="https://cdn.tailwindcss.com"></script>
+<div class="bg-white rounded-lg p-6 shadow-sm transition-all duration-200">
+  <h3 class="text-xl font-semibold mb-2">Default Card</h3>
+  <p class="text-gray-600">Standard card appearance.</p>
+</div>
+
+
+<div class="bg-white rounded-lg p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+  <h3 class="text-xl font-semibold mb-2">Hover Card</h3>
+  <p class="text-gray-600">Lifts up when you hover.</p>
+</div>
+
+
+<div class="bg-white rounded-lg p-8 shadow-md border-2 border-blue-500">
+  <h3 class="text-2xl font-bold mb-2 text-blue-600">Featured Card</h3>
+  <p class="text-gray-600">Premium content, always prominent.</p>
+</div>
+
+
+The default card uses subtle shadow and padding; hover effect card adds translate-y-1 with shadow-md for a slight lift effect; featured card increases padding to p-8, adds a blue border, and enlarges the heading 
+
+
+📝 ***Self-Assessment Template***
 
 Before this break, I knew…
 
